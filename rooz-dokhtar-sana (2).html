@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>روز دختر مبارک شکلات من 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Vazirmatn', sans-serif;
+            background: #1a0a1f;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(160deg, #1a0a1f 0%, #2d1b3d 35%, #4a1942 70%, #3d1235 100%);
+        }
+
+        /* ===== ستاره‌ها ===== */
+        .stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--dur) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.4); }
+            50% { opacity: var(--op); transform: scale(1); }
+        }
+
+        /* ===== ذرات پس‌زمینه ===== */
+        .bg-particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .bg-particle {
+            position: absolute;
+            font-size: 16px;
+            opacity: 0;
+            animation: floatParticle 9s ease-in infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { opacity: 0; transform: translateY(110vh) scale(0.4) rotate(0deg); }
+            12% { opacity: 0.75; }
+            88% { opacity: 0.5; }
+            100% { opacity: 0; transform: translateY(-15vh) scale(1.1) rotate(320deg); }
+        }
+
+        /* ===== صحنه انفجار ورود ===== */
+        .intro-scene {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #4a1942 0%, #1a0a1f 70%);
+            transition: opacity 1.1s ease, visibility 1.1s;
+        }
+
+        .intro-scene.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .explosion-ring {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid #ff6b9d;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .explosion-ring.active {
+            animation: explodeRing 1.4s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+        }
+
+        @keyframes explodeRing {
+            0% { opacity: 1; transform: scale(0); border-width: 8px; }
+            40% { opacity: 0.8; }
+            100% { opacity: 0; transform: scale(18); border-width: 1px; }
+        }
+
+        .intro-hearts {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .intro-heart {
+            position: absolute;
+            font-size: 28px;
+            opacity: 0;
+            left: 50%;
+            top: 50%;
+        }
+
+        .intro-heart.burst {
+            animation: heartBurst 1.6s cubic-bezier(0.15, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes heartBurst {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+            20% { opacity: 1; }
+            100% { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.6) rotate(var(--r)); }
+        }
+
+        .intro-title {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.3);
+        }
+
+        .intro-title.show {
+            animation: titlePop 1.1s cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards;
+        }
+
+        @keyframes titlePop {
+            0% { opacity: 0; transform: scale(0.3); }
+            60% { opacity: 1; transform: scale(1.12); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .intro-title h1 {
+            font-size: 32px;
+            color: #ffb6d9;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 150, 200, 0.8), 0 0 60px rgba(255, 100, 160, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .intro-title p {
+            font-size: 16px;
+            color: #ffcce0;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+
+        /* ===== شاخه گل ===== */
+        .flower-branch-scene {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .flower-branch-scene.show {
+            opacity: 1;
+        }
+
+        .flower-branch-scene.hide {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .branch {
+            position: relative;
+            width: 280px;
+            height: 320px;
+            transform: scale(0) rotate(-15deg);
+            opacity: 0;
+        }
+
+        .branch.show {
+            animation: branchAppear 1.6s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes branchAppear {
+            0% { opacity: 0; transform: scale(0) rotate(-25deg) translateY(40px); }
+            50% { opacity: 1; transform: scale(1.08) rotate(5deg) translateY(-10px); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
+        }
+
+        .branch-stem {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            width: 6px;
+            height: 220px;
+            background: linear-gradient(to top, #2d6a4f, #52b788, #95d5b2);
+            border-radius: 4px;
+            transform: translateX(-50%);
+            transform-origin: bottom;
+            box-shadow: 0 0 12px rgba(82, 183, 136, 0.4);
+        }
+
+        .leaf {
+            position: absolute;
+            font-size: 22px;
+            opacity: 0;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+
+        .leaf.show {
+            animation: leafGrow 0.7s ease forwards;
+        }
+
+        @keyframes leafGrow {
+            0% { opacity: 0; transform: scale(0) rotate(var(--rot)); }
+            70% { opacity: 1; transform: scale(1.2) rotate(var(--rot)); }
+            100% { opacity: 1; transform: scale(1) rotate(var(--rot)); }
+        }
+
+        .bloom {
+            position: absolute;
+            font-size: 32px;
+            opacity: 0;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
+        }
+
+        .bloom.show {
+            animation: bloomOpen 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
+        }
+
+        @keyframes bloomOpen {
+            0% { opacity: 0; transform: scale(0) rotate(-20deg); }
+            60% { opacity: 1; transform: scale(1.25) rotate(8deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* ===== صحنه اصلی (پاکت) ===== */
+        .main-scene {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            max-width: 420px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
+        .main-scene.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .top-label {
+            text-align: center;
+            margin-bottom: 18px;
+            opacity: 0;
+            transform: translateY(-15px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        .main-scene.show .top-label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .top-label h2 {
+            font-size: 22px;
+            color: #ffb6d9;
+            font-weight: 600;
+            text-shadow: 0 0 18px rgba(255, 150, 200, 0.6);
+        }
+
+        .top-label p {
+            font-size: 13px;
+            color: #ffcce0;
+            margin-top: 4px;
+        }
+
+        /* پاکت */
+        .envelope-wrap {
+            position: relative;
+            width: 300px;
+            height: 210px;
+            perspective: 900px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .envelope.open {
+            transform: translateY(-20px) scale(0.95);
+        }
+
+        .envelope-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 135px;
+            background: linear-gradient(145deg, #ff9ec4, #ff7eb3);
+            border-radius: 10px;
+            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.45), 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .envelope-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: linear-gradient(145deg, #ffb6d9, #ff9ec4);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            z-index: 3;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 105px;
+            background: linear-gradient(145deg, #ff8fbf, #ff6b9d);
+            clip-path: polygon(0 0, 50% 88%, 100% 0);
+            transform-origin: top;
+            transition: transform 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(255, 105, 180, 0.35);
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .seal {
+            position: absolute;
+            top: 66px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 46px;
+            height: 46px;
+            background: radial-gradient(circle, #ff4d88, #e6005c);
+            border-radius: 50%;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 14px rgba(230, 0, 92, 0.55);
+            transition: all 0.7s ease;
+        }
+
+        .envelope.open .seal {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.2);
+        }
+
+        /* عناصر کناری */
+        .side-elements {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .side-item {
+            position: absolute;
+            font-size: 22px;
+            opacity: 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .side-item.show {
+            animation: sideFloat 5.5s ease-in-out infinite;
+        }
+
+        @keyframes sideFloat {
+            0% { opacity: 0; transform: translate(0,0) scale(0.5) rotate(0deg); }
+            15% { opacity: 1; }
+            50% { opacity: 0.9; transform: translate(var(--tx), var(--ty)) scale(1) rotate(var(--r)); }
+            85% { opacity: 1; }
+            100% { opacity: 0; transform: translate(calc(var(--tx)*1.3), calc(var(--ty)*0.4)) scale(0.7) rotate(calc(var(--r)*1.4)); }
+        }
+
+        /* ===== مودال نامه تمام‌صفحه ===== */
+        .letter-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(26, 10, 31, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            padding: 16px;
+        }
+
+        .letter-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            background: linear-gradient(180deg, #fff9fb 0%, #fff0f5 100%);
+            border-radius: 20px;
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 182, 193, 0.3),
+                0 0 40px rgba(255, 105, 180, 0.15);
+            padding: 28px 24px;
+            position: relative;
+            transform: scale(0.7) translateY(40px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .letter-modal.show .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        /* دکمه بستن */
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 105, 180, 0.15);
+            border: none;
+            color: #d63384;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 10;
+        }
+
+        .close-btn:active {
+            background: rgba(255, 105, 180, 0.3);
+            transform: scale(0.92);
+        }
+
+        .modal-scroll {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            flex: 1;
+            padding-top: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: #ffb6d9 transparent;
+        }
+
+        .modal-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: #ffb6d9;
+            border-radius: 4px;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .letter-header.visible {
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .letter-header h1 {
+            font-size: 22px;
+            color: #d63384;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .letter-header .sub {
+            font-size: 14px;
+            color: #e83e8c;
+        }
+
+        .letter-body {
+            font-size: 15px;
+            line-height: 2;
+            color: #5a3a4a;
+            text-align: justify;
+            opacity: 0;
+        }
+
+        .letter-body.visible {
+            animation: fadeIn 0.9s ease forwards;
+        }
+
+        .letter-body p {
+            margin-bottom: 14px;
+        }
+
+        .highlight {
+            color: #d63384;
+            font-weight: 600;
+        }
+
+        .letter-footer {
+            margin-top: 24px;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .letter-footer.visible {
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .letter-footer .from {
+            font-size: 15px;
+            color: #d63384;
+            font-weight: 600;
+        }
+
+        .letter-footer .nick {
+            font-size: 14px;
+            color: #e83e8c;
+            margin-top: 3px;
+        }
+
+        /* دکوراسیون مودال */
+        .modal-deco {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .modal-deco.d1 { top: 18px; right: 20px; }
+        .modal-deco.d2 { bottom: 20px; left: 18px; }
+        .modal-deco.d3 { bottom: 20px; right: 22px; }
+
+        /* درخشش */
+        .glow {
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(255,140,190,0.28) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            animation: glowPulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.45; transform: translate(-50%,-50%) scale(1); }
+            50% { opacity: 0.85; transform: translate(-50%,-50%) scale(1.2); }
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* موبایل کوچک */
+        @media (max-width: 380px) {
+            .envelope-wrap { width: 270px; height: 195px; }
+            .intro-title h1 { font-size: 28px; }
+            .top-label h2 { font-size: 20px; }
+            .modal-content { padding: 24px 18px; }
+            .letter-body { font-size: 14.5px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ستاره‌ها -->
+    <div class="stars" id="stars"></div>
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="glow"></div>
+
+    <!-- ===== صحنه ورود انفجاری ===== -->
+    <div class="intro-scene" id="introScene">
+        <div class="explosion-ring" id="ring1"></div>
+        <div class="explosion-ring" id="ring2" style="animation-delay:0.15s"></div>
+        <div class="explosion-ring" id="ring3" style="animation-delay:0.3s"></div>
+        <div class="intro-hearts" id="introHearts"></div>
+        <div class="intro-title" id="introTitle">
+            <h1>روز دختر مبارک</h1>
+            <p>برای شکلات عزیزم 💕</p>
+        </div>
+    </div>
+
+    <!-- ===== شاخه گل ===== -->
+    <div class="flower-branch-scene" id="branchScene">
+        <div class="branch" id="branch">
+            <div class="branch-stem"></div>
+        </div>
+    </div>
+
+    <!-- ===== صحنه اصلی (پاکت) ===== -->
+    <div class="main-scene" id="mainScene">
+        <div class="top-label">
+            <h2>یه نامه مخصوص تو</h2>
+            <p>از پشمکت 🍭</p>
+        </div>
+
+        <div class="envelope-wrap">
+            <div class="envelope" id="envelope">
+                <div class="envelope-flap"></div>
+                <div class="seal">💖</div>
+                <div class="envelope-body"></div>
+            </div>
+            <div class="side-elements" id="sideElements"></div>
+        </div>
+    </div>
+
+    <!-- ===== مودال نامه تمام‌صفحه ===== -->
+    <div class="letter-modal" id="letterModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeBtn" aria-label="بستن">✕</button>
+            
+            <div class="modal-deco d1">🌸</div>
+            <div class="modal-deco d2">💕</div>
+            <div class="modal-deco d3">✨</div>
+
+            <div class="modal-scroll">
+                <div class="letter-header" id="letterHeader">
+                    <h1>ثنا جانم 💕</h1>
+                    <div class="sub">شکلات نازنینم</div>
+                </div>
+
+                <div class="letter-body" id="letterBody">
+                    <p>امروز که روز دختره، دلم می‌خواست یه چیزی برات بسازم که فقط مال خودت باشه...</p>
+                    <p>می‌دونی ثنا، از وقتی اومدی تو زندگیم، همه چیز قشنگ‌تر شده. حتی روزای معمولی هم با تو رنگ و بوی دیگه‌ای دارن.</p>
+                    <p>تو اون <span class="highlight">شکلاتی</span> هستی که هر بار اسمت رو می‌آرم، دلم گرم می‌شه. و منم همون <span class="highlight">پشمکت</span> هستم که همیشه می‌خواد بذاره سرت بخنده.</p>
+                    <p>ممنونم که هستی. ممنونم که با همهٔ خاص بودنت، منو انتخاب کردی. امیدوارم همیشه همین‌قدر بدرخشی، همین‌قدر قوی باشی و بدون که چقدر برات ارزش قائلم.</p>
+                    <p>روز دخترت مبارک، قشنگ‌ترین دختر دنیا 🌸</p>
+                </div>
+
+                <div class="letter-footer" id="letterFooter">
+                    <div class="from">با همهٔ عشق دنیا</div>
+                    <div class="nick">پشمکت 🍭</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== ستاره‌ها =====
+        function createStars() {
+            const box = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = Math.random() * 2.2 + 0.6;
+                s.style.width = size + 'px';
+                s.style.height = size + 'px';
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.setProperty('--dur', (Math.random() * 3 + 2) + 's');
+                s.style.setProperty('--op', (Math.random() * 0.65 + 0.35).toFixed(2));
+                s.style.animationDelay = Math.random() * 4 + 's';
+                box.appendChild(s);
+            }
+        }
+
+        // ===== ذرات پس‌زمینه =====
+        function startBgParticles() {
+            const box = document.getElementById('bgParticles');
+            const symbols = ['💕', '✨', '🌸', '💖', '⭐', '🦋', '💗'];
+            setInterval(() => {
+                if (box.children.length > 18) return;
+                const p = document.createElement('div');
+                p.className = 'bg-particle';
+                p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                p.style.left = Math.random() * 100 + '%';
+                p.style.fontSize = (Math.random() * 10 + 13) + 'px';
+                p.style.animationDuration = (Math.random() * 3 + 7) + 's';
+                box.appendChild(p);
+                setTimeout(() => p.remove(), 10000);
+            }, 550);
+        }
+
+        // ===== انفجار ورود =====
+        function runIntro() {
+            const heartsBox = document.getElementById('introHearts');
+            const positions = [
+                {x: -120, y: -160}, {x: 130, y: -150}, {x: -150, y: 40},
+                {x: 160, y: 30}, {x: -80, y: 140}, {x: 90, y: 150},
+                {x: -180, y: -60}, {x: 190, y: -40}, {x: 0, y: -180},
+                {x: -100, y: 100}, {x: 110, y: -100}, {x: 40, y: 170}
+            ];
+
+            setTimeout(() => {
+                document.getElementById('ring1').classList.add('active');
+                document.getElementById('ring2').classList.add('active');
+                document.getElementById('ring3').classList.add('active');
+            }, 200);
+
+            positions.forEach((pos, i) => {
+                const h = document.createElement('div');
+                h.className = 'intro-heart';
+                h.textContent = ['💖','💕','💗','💓','💞'][i % 5];
+                h.style.setProperty('--x', pos.x + 'px');
+                h.style.setProperty('--y', pos.y + 'px');
+                h.style.setProperty('--r', (Math.random() * 60 - 30) + 'deg');
+                h.style.animationDelay = (0.15 + i * 0.06) + 's';
+                heartsBox.appendChild(h);
+                setTimeout(() => h.classList.add('burst'), 300);
+            });
+
+            setTimeout(() => {
+                document.getElementById('introTitle').classList.add('show');
+            }, 500);
+
+            setTimeout(() => {
+                document.getElementById('introScene').classList.add('hide');
+            }, 2600);
+        }
+
+        // ===== شاخه گل =====
+        function showBranch() {
+            const scene = document.getElementById('branchScene');
+            const branch = document.getElementById('branch');
+            scene.classList.add('show');
+
+            const leaves = [
+                {x: 30, y: 180, emoji: '🍃', rot: -25},
+                {x: 200, y: 160, emoji: '🍃', rot: 30},
+                {x: 40, y: 120, emoji: '🌿', rot: -15},
+                {x: 195, y: 100, emoji: '🌿', rot: 20},
+                {x: 55, y: 70, emoji: '🍃', rot: -35},
+                {x: 185, y: 55, emoji: '🍃', rot: 25}
+            ];
+
+            leaves.forEach((l, i) => {
+                const el = document.createElement('div');
+                el.className = 'leaf';
+                el.textContent = l.emoji;
+                el.style.left = l.x + 'px';
+                el.style.top = l.y + 'px';
+                el.style.setProperty('--rot', l.rot + 'deg');
+                branch.appendChild(el);
+                setTimeout(() => el.classList.add('show'), 400 + i * 120);
+            });
+
+            const blooms = [
+                {x: 95, y: 30, emoji: '🌸', size: 36},
+                {x: 145, y: 15, emoji: '🌺', size: 34},
+                {x: 70, y: 55, emoji: '🌷', size: 30},
+                {x: 170, y: 45, emoji: '💮', size: 28},
+                {x: 115, y: 70, emoji: '🌹', size: 32},
+                {x: 90, y: 100, emoji: '🌸', size: 26},
+                {x: 155, y: 90, emoji: '🌺', size: 27}
+            ];
+
+            blooms.forEach((b, i) => {
+                const el = document.createElement('div');
+                el.className = 'bloom';
+                el.textContent = b.emoji;
+                el.style.left = b.x + 'px';
+                el.style.top = b.y + 'px';
+                el.style.fontSize = b.size + 'px';
+                branch.appendChild(el);
+                setTimeout(() => el.classList.add('show'), 700 + i * 140);
+            });
+
+            branch.classList.add('show');
+
+            setTimeout(() => {
+                scene.classList.add('hide');
+                setTimeout(() => {
+                    scene.style.display = 'none';
+                    showMainScene();
+                }, 900);
+            }, 3400);
+        }
+
+        // ===== صحنه اصلی پاکت =====
+        function showMainScene() {
+            const main = document.getElementById('mainScene');
+            const envelope = document.getElementById('envelope');
+            main.classList.add('show');
+
+            // باز شدن پاکت
+            setTimeout(() => {
+                envelope.classList.add('open');
+            }, 900);
+
+            // باز شدن مودال نامه
+            setTimeout(() => {
+                openLetterModal();
+            }, 1800);
+
+            createSideElements();
+        }
+
+        function createSideElements() {
+            const box = document.getElementById('sideElements');
+            const items = [
+                {emoji: '🦋', x: -25, y: -20, tx: -30, ty: -60, r: -15},
+                {emoji: '🦋', x: 280, y: -30, tx: 40, ty: -50, r: 20},
+                {emoji: '🌸', x: -20, y: 90, tx: -25, ty: -40, r: -10},
+                {emoji: '🌸', x: 285, y: 80, tx: 30, ty: -35, r: 15},
+                {emoji: '💕', x: 130, y: -50, tx: 10, ty: -70, r: 5},
+                {emoji: '✨', x: 40, y: 160, tx: -20, ty: -30, r: -20},
+                {emoji: '✨', x: 240, y: 155, tx: 25, ty: -25, r: 18}
+            ];
+
+            items.forEach((item, i) => {
+                const el = document.createElement('div');
+                el.className = 'side-item';
+                el.textContent = item.emoji;
+                el.style.left = item.x + 'px';
+                el.style.top = item.y + 'px';
+                el.style.setProperty('--tx', item.tx + 'px');
+                el.style.setProperty('--ty', item.ty + 'px');
+                el.style.setProperty('--r', item.r + 'deg');
+                el.style.animationDelay = (i * 0.35) + 's';
+                box.appendChild(el);
+                setTimeout(() => el.classList.add('show'), 1800 + i * 200);
+            });
+        }
+
+        // ===== مودال نامه =====
+        function openLetterModal() {
+            const modal = document.getElementById('letterModal');
+            modal.classList.add('show');
+
+            setTimeout(() => document.getElementById('letterHeader').classList.add('visible'), 400);
+            setTimeout(() => document.getElementById('letterBody').classList.add('visible'), 700);
+            setTimeout(() => document.getElementById('letterFooter').classList.add('visible'), 1100);
+        }
+
+        function closeLetterModal() {
+            document.getElementById('letterModal').classList.remove('show');
+        }
+
+        // بستن مودال
+        document.getElementById('closeBtn').addEventListener('click', closeLetterModal);
+        document.getElementById('letterModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('letterModal')) {
+                closeLetterModal();
+            }
+        });
+
+        // ===== شروع =====
+        window.addEventListener('load', () => {
+            createStars();
+            startBgParticles();
+            runIntro();
+            setTimeout(showBranch, 2800);
+        });
+    </script>
+</body>
+</html>
